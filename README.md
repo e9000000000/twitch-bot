@@ -2,4 +2,4 @@
 a
 
 # IRC token
-(get token)[https://twitchapps.com/tmi/]
+[get token](https://twitchapps.com/tmi/)
