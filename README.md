@@ -4,10 +4,10 @@ simple twitch chat bot
 # how to use
 open py file and write your twitch nickname to "NICK" and "[irc token](https://twitchapps.com/tmi/)" to PASS.
 
-in main fuction u can see "stream.chat.add_in_answers("алло", lambda username: f"@{username}, че аллокаешь")"
+in main fuction u can see `stream.chat.add_in_answers("алло", lambda username: f"@{username}, че аллокаешь")`
 in this example if someone wrote in his message "алло" bot will write "@someone, че аллокаешь"
 
-for "stream.chat.add_only_answers("украине\r\n", lambda username: "СЛАВА")"
+for `stream.chat.add_only_answers("украине\r\n", lambda username: "СЛАВА")`
 if someones message consist only of "украине" word, bot will write "СЛАВА"
 
 
