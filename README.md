@@ -14,8 +14,8 @@ if someones message consist only of "украине" word, bot will write "СЛ�
 after this start the programm.
 write chanel and u can see messages from chat.
 
-type "/run" to start bot
-type "/stop" to stop bot
-type "/clear" to clear terminal
+* type "/run" to start bot
+* type "/stop" to stop bot
+* type "/clear" to clear terminal
 
 
