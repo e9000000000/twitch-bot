@@ -17,5 +17,5 @@ write chanel and u can see messages from chat.
 * type "/run" to start bot
 * type "/stop" to stop bot
 * type "/clear" to clear terminal
-
+* type message with not "/" first symbol to write it to chat
 
