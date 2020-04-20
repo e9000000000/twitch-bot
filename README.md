@@ -6,15 +6,10 @@ open py file and write your twitch nickname to "NICK" and "[irc token](https://t
 
 in main fuction u can see
 ```python
-stream.chat.add_in_answers("алло", lambda username: f"@{username}, че аллокаешь")
+stream.chat.add_answer(Answer(lambda username, message: "алло" in message, lambda username: f"@{username}, че аллокаешь"))
 ```
 in this example if someone wrote in his message "алло" bot will write "@someone, че аллокаешь"
-
-for
-```python
-stream.chat.add_only_answers("украине\r\n", lambda username: "СЛАВА")
-```
-if someones message consist only of "украине" word, bot will write "СЛАВА"
+if first function return true, bot will write string that returned by second function
 
 
 after this start the programm.
