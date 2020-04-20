@@ -14,14 +14,19 @@ PASS = "" #irc token
 NICK = "" #twitch nickname
 
 
+class Answer():
+    def __init__(self, is_need_send_message, get_answer):
+        self.is_need_send_message = is_need_send_message
+        self.get_answer = get_answer
+
+
 class Chat():
     def __init__(self, channel, print_func):
         """print_func need to recive username and message args and print message"""
         self.__channel = channel
         self.__print_function = print_func
         self.__is_answers_started = False
-        self.__in_answers_dict = {}
-        self.__only_answers_dict = {}
+        self.__answers = []
 
         self.__chat_message = re.compile(r"^:\w+!\w+@\w+\.tmi\.twitch\.tv PRIVMSG #\w+ :")
 
@@ -37,22 +42,16 @@ class Chat():
     def send_message(self, message):
         self.__soc.send(f"PRIVMSG #{self.__channel} :{message}\r\n".encode("utf-8"))
 
-    def add_in_answers(self, key, answ_func):
-        self.__in_answers_dict[key] = answ_func
-    def add_only_answers(self, key, answ_func):
-        self.__only_answers_dict[key] = answ_func
+    def add_answer(self, answer):
+        if type(answer) is Answer:
+            self.__answers.append(answer)
 
     def __check_answers(self, message:str, username):
         lmes = message.lower()
-        
-        for key in self.__only_answers_dict.keys():
-            if key == lmes:
-                self.send_message(self.__only_answers_dict[key](username))
-                return
 
-        for key in self.__in_answers_dict.keys():
-            if key in lmes:
-                self.send_message(self.__in_answers_dict[key](username))
+        for answer in self.__answers:
+            if answer.is_need_send_message(username, lmes):
+                self.send_message(answer.get_answer(username))
                 sleep(1)
 
 
@@ -73,6 +72,7 @@ class Chat():
 
     def botstop(self):
         self.__is_answers_started = False
+
 
 class StreamWatcher():
     def __init__(self, channel, print_func=print):
@@ -97,13 +97,12 @@ def clear():
 def main():
     channel = input("channel: ")
     stream = StreamWatcher(channel, print_message_from_chat)
-    stream.chat.add_in_answers("слава украине", lambda username: "героям слава")
-    stream.chat.add_in_answers("ахмат", lambda username: "ахмат сила")
-    stream.chat.add_in_answers("чечня", lambda username: "чечня круто")
-    stream.chat.add_in_answers("алло", lambda username: f"@{username}, че аллокаешь")
-    stream.chat.add_in_answers(f"{NICK}", lambda username: f"@{username}, не произноси моего имени")
-
-    stream.chat.add_only_answers("украине\r\n", lambda username: "СЛАВА")
+    stream.chat.add_answer(Answer(lambda username, message: "слава украине" in message, lambda username: "героям слава"))
+    stream.chat.add_answer(Answer(lambda username, message: "ахмат" in message, lambda username: "ахмат сила"))
+    stream.chat.add_answer(Answer(lambda username, message: "чечня" in message, lambda username: "чечня крута"))
+    stream.chat.add_answer(Answer(lambda username, message: "алло" in message, lambda username: f"@{username}, че аллокаешь"))
+    stream.chat.add_answer(Answer(lambda username, message: f"{NICK}" in message, lambda username: f"@{username}, не произноси моего имени"))
+    stream.chat.add_answer(Answer(lambda username, message: "украине\r\n" == message, lambda username: "СЛАВА"))
 
     while "Ленин жив":
         inp = input()
