@@ -8,7 +8,7 @@ in main fuction u can see
 ```python
 stream.chat.add_answer(Answer(lambda username, message: "алло" in message, lambda username: f"@{username}, че аллокаешь"))
 ```
-in this example if someone wrote in his message "алло" bot will write "@someone, че аллокаешь"
+in this example if someone wrote in his message "алло" bot will write "@someone, че аллокаешь". 
 if first function return true, bot will write string that returned by second function
 
 
