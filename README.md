@@ -2,21 +2,24 @@
 simple twitch chat bot
 
 # how to use
-open py file and write your twitch nickname to "NICK" and "[irc token](https://twitchapps.com/tmi/)" to PASS.
+setup env variables `TWITCH_NICK` to twitch bot username and `TWITCH_PASS` to bot oauth [irc token](https://twitchapps.com/tmi/)
 
-in main fuction u can see
-```python
-stream.chat.add_answer(Answer(lambda username, message: "алло" in message, lambda username: f"@{username}, че аллокаешь"))
+then clone repository
+```bash
+git clone https://github.com/e6000000000/twitch-bot.git
+cd twitch-bot
 ```
-in this example if someone wrote in his message "алло" bot will write "@someone, че аллокаешь". 
-if first function return true, bot will write string that returned by second function
 
+in `config.py` setup `COMMANDS` like
+```python
+{
+    r'regular expression. will be searched in message.': 'response. write {user}. it will be replased with username of message author',
+    r'^another one$': 'another one',
+}
+```
 
-after this start the programm.
-write chanel and u can see messages from chat.
-
-* type "/run" to start bot
-* type "/stop" to stop bot
-* type "/clear" to clear terminal
-* type message with not "/" first symbol to write it to chat
+start bot
+```bash
+python3 bot.py
+```
 
